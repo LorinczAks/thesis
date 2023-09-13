@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>kartya.jpg</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>

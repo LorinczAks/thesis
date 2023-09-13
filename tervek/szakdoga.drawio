@@ -1,0 +1,28 @@
+<mxfile host="app.diagrams.net" modified="2023-08-05T08:38:06.613Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 OPR/100.0.0.0" etag="DZcbHfAH5Oq-Ii1XYCHP" version="21.6.6" type="device">
+  <diagram name="1 oldal" id="zIkcaAWjO5TzYZFJ0jLl">
+    <mxGraphModel dx="1393" dy="766" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="s_qMaSHcM9xkvitz9Htc-1" value="Card" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="70" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="s_qMaSHcM9xkvitz9Htc-2" value="- string name&lt;br&gt;- string description&lt;br&gt;- string kind&lt;br&gt;- int value&lt;br&gt;- string picture&lt;br&gt;- string/bool specialAttribute" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="s_qMaSHcM9xkvitz9Htc-3" value="+ string getKind()&lt;br&gt;+ int getValue()&lt;br&gt;+ bool passesTo(Card c)" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="50" y="210" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="s_qMaSHcM9xkvitz9Htc-4" value="Game" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="40" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="s_qMaSHcM9xkvitz9Htc-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="70" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s_qMaSHcM9xkvitz9Htc-7" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="130" width="240" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
