@@ -1,5 +1,5 @@
 #include "deck.h"
-
+/*
 Deck::Deck()
 {
     Card tmp;
@@ -8,3 +8,4 @@ Deck::Deck()
         content.push_back(tmp);
     }
 }
+*/

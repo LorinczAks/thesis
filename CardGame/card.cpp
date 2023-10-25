@@ -2,9 +2,9 @@
 #include <QGraphicsScene>
 #include <iostream>
 
-Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
+Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
 {
-    code = code; // "7"
+    this->code = code; // "7"
     switch (code) {
         case 0:
             description = "Piros Hetes";
@@ -13,6 +13,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "drawtwo";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 1:
             description = "Piros Nyolcas";
@@ -21,6 +22,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 2:
             description = "Piros Kilences";
@@ -29,6 +31,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 3:
             description = "Piros Tizes";
@@ -37,6 +40,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 4:
             description = "Piros Alsó";
@@ -45,6 +49,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 5:
             description = "Piros Felső";
@@ -53,6 +58,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "askforkind";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 6:
             description = "Piros Király";
@@ -61,6 +67,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 7:
             description = "Piros Ász";
@@ -69,6 +76,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "outofturn";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 8:
             description = "Tök Hetes";
@@ -77,6 +85,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "drawtwo";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 9:
             description = "Tök Nyolcas";
@@ -85,6 +94,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 10:
             description = "Tök Kilences";
@@ -93,6 +103,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 11:
             description = "Tök Tizes";
@@ -101,6 +112,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 12:
             description = "Tök Alsó";
@@ -109,6 +121,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 13:
             description = "Tök Felső";
@@ -117,6 +130,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "askforkind";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 14:
             description = "Tök Király";
@@ -125,6 +139,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 15:
             description = "Tök Ász";
@@ -133,6 +148,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "outofturn";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 16:
             description = "Zöld Hetes";
@@ -141,6 +157,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "drawtwo";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 17:
             description = "Zöld Nyolcas";
@@ -149,6 +166,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 18:
             description = "Zöld Kilences";
@@ -157,6 +175,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 19:
             description = "Zöld Tizes";
@@ -165,6 +184,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 20:
             description = "Zöld Alsó";
@@ -173,6 +193,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 21:
             description = "Zöld Felső";
@@ -181,6 +202,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "askforkind";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 22:
             description = "Zöld Király";
@@ -189,6 +211,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 23:
             description = "Zöld Ász";
@@ -197,6 +220,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "outofturn";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 24:
             description = "Makk Hetes";
@@ -205,6 +229,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 25:
             description = "Makk Nyolcas";
@@ -213,6 +238,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 26:
             description = "Makk Kilences";
@@ -221,6 +247,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 27:
             description = "Makk Tizes";
@@ -229,6 +256,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 28:
             description = "Makk Alsó";
@@ -237,6 +265,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 29:
             description = "Makk Felső";
@@ -245,6 +274,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "askforkind";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 30:
             description = "Makk Király";
@@ -253,6 +283,7 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         case 31:
             description = "Makk Ász";
@@ -261,16 +292,18 @@ Card::Card(QGraphicsItem *parent, int code): QGraphicsPixmapItem(parent)
             picture = ":/images/kartya.jpg";
             specialAttribute = "outofturn";
             setPixmap(QPixmap(":/images/kartya.jpg"));
+            owner = "pakli";
             break;
         default:
             std::cerr << "Invalid card code!" << std::endl;
     }
 }
 
-std::string getKind() {
-    return kind;
+std::string Card::getKind() {
+    return this->kind;
 }
 
-int getValue() {
-    return value;
+int Card::getValue() {
+    return this->value;
 }
+

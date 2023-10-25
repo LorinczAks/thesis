@@ -7,9 +7,16 @@
 
 class Game: public QGraphicsView{
 public:
-    Game(QWidget * parent=0);
+    // constructor
+    Game(QWidget * parent=NULL);
 
+    // methods
+    void start();
+
+    // attributes
     QGraphicsScene * scene;
+    //CardTable* table; TODO
+    QString whosTurn;
 
 };
 

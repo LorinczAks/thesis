@@ -1,4 +1,5 @@
 #include "game.h"
+#include "card.h"
 #include <QTimer>
 #include <QGraphicsTextItem>
 #include <QFont>
@@ -8,17 +9,17 @@
 #include <QImage>
 
 Game::Game(QWidget *parent){
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFixedSize(1024,768);
     // create the scene
     scene = new QGraphicsScene();
-    scene->setSceneRect(0,0,800,600); // make the scene 800x600 instead of infinity by infinity (default)
-    setBackgroundBrush(QBrush(QImage(":/images/bg.png")));
+    scene->setSceneRect(0,0,1024,768); // make the scene 800x600 instead of infinity by infinity (default)
+    setBackgroundBrush(QBrush(QImage(":/images/tablecover.jpg")));
 
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
     // it can be used to visualize scenes)
     setScene(scene);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(800,600);
     /*
     // create the player
     player = new Player();
@@ -46,6 +47,10 @@ Game::Game(QWidget *parent){
     music->setMedia(QUrl("qrc:/sounds/bgsound.mp3"));
     music->play();
     */
+}
 
-    show();
+void Game::start(){
+    Card* card = new Card(0);
+    scene->addItem(card);
+    card->setPos(100,100);
 }

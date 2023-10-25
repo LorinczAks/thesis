@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 
     game = new Game();
     game->show();
+    game->start();
 
     return a.exec();
 }

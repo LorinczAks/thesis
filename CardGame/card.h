@@ -9,7 +9,7 @@
 class Card: public QGraphicsPixmapItem
 {
 public:
-    Card(QGraphicsItem * parent=0, int code=0);
+    Card(int code =0, QGraphicsItem* parent=0);
     std::string getKind();
     int getValue();
     bool passesTo(Card c);
@@ -20,6 +20,7 @@ private:
     int value; // 13
     std::string picture; // "src://images/Winter7.jpg"
     std::string specialAttribute; // "outofturn"
+    std::string owner; // "player1, player2, pakli, kijátszott"
 };
 
 #endif // CARD_H
