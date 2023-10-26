@@ -12,7 +12,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 7;
             picture = ":/images/kartya.jpg";
             specialAttribute = "drawtwo";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Piros7.png"));
             owner = "pakli";
             break;
         case 1:
