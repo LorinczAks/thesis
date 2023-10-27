@@ -1,11 +1,23 @@
 #include "deck.h"
-/*
-Deck::Deck()
+
+Deck::Deck(QString owner)
 {
-    Card tmp;
+    this->owner = owner;
+    /*
+    owner = "pakli";
+    Card* tmp;
     for(int i = 0; i < 32; i++) {
         tmp = new Card(i);
-        content.push_back(tmp);
+        content << tmp;
     }
+    */
 }
-*/
+
+
+QList<Card*> Deck::getContent() {
+    return content;
+}
+
+void Deck::addCards(Card* card) {
+    content << card;
+}

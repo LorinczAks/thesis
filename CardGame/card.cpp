@@ -10,7 +10,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             description = "Piros Hetes";
             kind = "Piros";
             value = 7;
-            picture = ":/images/kartya.jpg";
+            picture = "::/source/Piros7.png";
             specialAttribute = "drawtwo";
             setPixmap(QPixmap(":/source/Piros7.png"));
             owner = "pakli";
@@ -19,72 +19,72 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             description = "Piros Nyolcas";
             kind = "Piros";
             value = 8;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/Piros8.png";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Piros8.png"));
             owner = "pakli";
             break;
         case 2:
             description = "Piros Kilences";
             kind = "Piros";
             value = 9;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/Piros9.png";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Piros9.png"));
             owner = "pakli";
             break;
         case 3:
             description = "Piros Tizes";
             kind = "Piros";
             value = 10;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/Piros10.png";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Piros10.png"));
             owner = "pakli";
             break;
         case 4:
             description = "Piros Alsó";
             kind = "Piros";
             value = 11;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/PirosAls.png";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/PirosAls.png"));
             owner = "pakli";
             break;
         case 5:
             description = "Piros Felső";
             kind = "Piros";
             value = 12;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/PirosFel.png";
             specialAttribute = "askforkind";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/PirosFel.png"));
             owner = "pakli";
             break;
         case 6:
             description = "Piros Király";
             kind = "Piros";
             value = 13;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/PirosKir.png";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/PirosKir.png"));
             owner = "pakli";
             break;
         case 7:
             description = "Piros Ász";
             kind = "Piros";
             value = 14;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/PirosAsz.png";
             specialAttribute = "outofturn";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/PirosAsz.png"));
             owner = "pakli";
             break;
         case 8:
             description = "Tök Hetes";
             kind = "Tök";
             value = 7;
-            picture = ":/images/kartya.jpg";
+            picture = ":/source/Tok7.png";
             specialAttribute = "drawtwo";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Tok7.png"));
             owner = "pakli";
             break;
         case 9:
@@ -93,7 +93,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 8;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Tok8.png"));
             owner = "pakli";
             break;
         case 10:
@@ -102,7 +102,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 9;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Tok9.png"));
             owner = "pakli";
             break;
         case 11:
@@ -111,7 +111,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 10;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Tok10.png"));
             owner = "pakli";
             break;
         case 12:
@@ -120,7 +120,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 11;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/TokAls.png"));
             owner = "pakli";
             break;
         case 13:
@@ -129,7 +129,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 12;
             picture = ":/images/kartya.jpg";
             specialAttribute = "askforkind";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/TokFel.png"));
             owner = "pakli";
             break;
         case 14:
@@ -138,7 +138,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 13;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/TokKir.png"));
             owner = "pakli";
             break;
         case 15:
@@ -147,7 +147,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 14;
             picture = ":/images/kartya.jpg";
             specialAttribute = "outofturn";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/TokAsz.png"));
             owner = "pakli";
             break;
         case 16:
@@ -156,7 +156,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 7;
             picture = ":/images/kartya.jpg";
             specialAttribute = "drawtwo";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Zold7.png"));
             owner = "pakli";
             break;
         case 17:
@@ -165,7 +165,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 8;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Zold8.png"));
             owner = "pakli";
             break;
         case 18:
@@ -174,7 +174,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 9;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Zold9.png"));
             owner = "pakli";
             break;
         case 19:
@@ -183,7 +183,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 10;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Zold10.png"));
             owner = "pakli";
             break;
         case 20:
@@ -192,7 +192,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 11;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/ZoldAls.png"));
             owner = "pakli";
             break;
         case 21:
@@ -201,7 +201,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 12;
             picture = ":/images/kartya.jpg";
             specialAttribute = "askforkind";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/ZoldFel.png"));
             owner = "pakli";
             break;
         case 22:
@@ -210,7 +210,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 13;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/ZoldKir.png"));
             owner = "pakli";
             break;
         case 23:
@@ -219,7 +219,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 14;
             picture = ":/images/kartya.jpg";
             specialAttribute = "outofturn";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/ZoldAsz.png"));
             owner = "pakli";
             break;
         case 24:
@@ -228,7 +228,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 7;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Makk7.png"));
             owner = "pakli";
             break;
         case 25:
@@ -237,7 +237,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 8;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Makk8.png"));
             owner = "pakli";
             break;
         case 26:
@@ -246,7 +246,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 9;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Makk9.png"));
             owner = "pakli";
             break;
         case 27:
@@ -255,7 +255,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 10;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/Makk10.png"));
             owner = "pakli";
             break;
         case 28:
@@ -264,7 +264,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 11;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/MakkAls.png"));
             owner = "pakli";
             break;
         case 29:
@@ -273,7 +273,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 12;
             picture = ":/images/kartya.jpg";
             specialAttribute = "askforkind";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/MakkFel.png"));
             owner = "pakli";
             break;
         case 30:
@@ -282,7 +282,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 13;
             picture = ":/images/kartya.jpg";
             specialAttribute = "";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/MakkKir.png"));
             owner = "pakli";
             break;
         case 31:
@@ -291,7 +291,7 @@ Card::Card( int code, QGraphicsItem *parent): QGraphicsPixmapItem(parent)
             value = 14;
             picture = ":/images/kartya.jpg";
             specialAttribute = "outofturn";
-            setPixmap(QPixmap(":/images/kartya.jpg"));
+            setPixmap(QPixmap(":/source/MakkAsz.png"));
             owner = "pakli";
             break;
         default:

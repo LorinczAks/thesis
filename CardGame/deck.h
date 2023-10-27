@@ -2,14 +2,19 @@
 #define DECK_H
 
 #include "card.h"
-#include <vector>
+#include <QList>
 
 class Deck
 {
 public:
-    Deck();
+    Deck(QString owner);
+
+    QList<Card*> getContent();
+
+    void addCards(Card* card);
 private:
-    std::vector<Card> content;
+    QList<Card*> content;
+    QString owner; // player1 | player2 | pakli | dobott
 };
 
 #endif // DECK_H

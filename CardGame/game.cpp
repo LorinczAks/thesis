@@ -1,12 +1,14 @@
 #include "game.h"
 #include "card.h"
-#include <QTimer>
+#include "deck.h"
 #include <QGraphicsTextItem>
 #include <QFont>
 
-//#include <QMediaPlayer>
-#include <QBrush>
 #include <QImage>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QScrollArea>
+#include <QPushButton>
 
 Game::Game(QWidget *parent){
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -20,37 +22,36 @@ Game::Game(QWidget *parent){
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
     // it can be used to visualize scenes)
     setScene(scene);
-    /*
-    // create the player
-    player = new Player();
-    player->setPos(400,500); // TODO generalize to always be in the middle bottom of screen
-    // make the player focusable and set it to be the current focus
-    player->setFlag(QGraphicsItem::ItemIsFocusable);
-    player->setFocus();
-    // add the player to the scene
-    scene->addItem(player);
 
-    // create the score/health
-    score = new Score();
-    scene->addItem(score);
-    health = new Health();
-    health->setPos(health->x(),health->y()+25);
-    scene->addItem(health);
+    QWidget *widget = new QWidget;
+    QScrollArea* scrollArea = new QScrollArea;
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(widget);
+    scrollArea->setStyleSheet("background-image: url(:/source/tablecover.jpg);");
+    scrollArea->setGeometry(200, 550, 600, 175);
 
-    // spawn enemies
-    QTimer * timer = new QTimer();
-    QObject::connect(timer,SIGNAL(timeout()),player,SLOT(spawn()));
-    timer->start(2000);
 
-    // play background music
-    QMediaPlayer * music = new QMediaPlayer();
-    music->setMedia(QUrl("qrc:/sounds/bgsound.mp3"));
-    music->play();
-    */
+    QHBoxLayout *layout = new QHBoxLayout(widget);
+    QGridLayout *gridLayout = new QGridLayout;
+    gridLayout->setAlignment(Qt::AlignCenter);
+    for (int j = 0; j < 15; ++j) {
+
+        Card *tmp_card = new Card(j);
+        QGraphicsScene* cardScene = new QGraphicsScene;
+        QGraphicsView* view = new QGraphicsView;
+        view->setScene(cardScene);
+        view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        view->setFixedSize(80,125);
+        cardScene->addItem(tmp_card);
+
+        layout->addWidget(view);
+    }
+    scene->addWidget(scrollArea);
 }
 
 void Game::start(){
-    Card* card = new Card(0);
-    scene->addItem(card);
-    card->setPos(100,100);
+    //Deck* pakli = new Deck("pakli");
+
+
 }
