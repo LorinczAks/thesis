@@ -11,13 +11,14 @@ public:
     Game(QWidget * parent=NULL);
 
     // methods
-    void start();
+    void displayMenu();
 
     // attributes
     QGraphicsScene * scene;
     //CardTable* table; TODO
-    QString whosTurn;
-
+    QString whoseTurn;
+public slots:
+    void start();
 };
 
 #endif // GAME_H

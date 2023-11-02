@@ -1,6 +1,7 @@
 #include "game.h"
 #include "card.h"
 #include "deck.h"
+#include "button.h"
 #include <QGraphicsTextItem>
 #include <QFont>
 
@@ -22,6 +23,17 @@ Game::Game(QWidget *parent){
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
     // it can be used to visualize scenes)
     setScene(scene);
+}
+
+void Game::start(){
+    //Deck* pakli = new Deck("pakli");
+    scene = new QGraphicsScene();
+    scene->setSceneRect(0,0,1024,768); // make the scene 800x600 instead of infinity by infinity (default)
+    setBackgroundBrush(QBrush(QImage(":/source/tablecover.jpg")));
+
+    // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
+    // it can be used to visualize scenes)
+    setScene(scene);
 
     QWidget *widget = new QWidget;
     QScrollArea* scrollArea = new QScrollArea;
@@ -34,7 +46,7 @@ Game::Game(QWidget *parent){
     QHBoxLayout *layout = new QHBoxLayout(widget);
     QGridLayout *gridLayout = new QGridLayout;
     gridLayout->setAlignment(Qt::AlignCenter);
-    for (int j = 0; j < 15; ++j) {
+    for (int j = 0; j < 3; ++j) {
 
         Card *tmp_card = new Card(j);
         QGraphicsScene* cardScene = new QGraphicsScene;
@@ -48,10 +60,40 @@ Game::Game(QWidget *parent){
         layout->addWidget(view);
     }
     scene->addWidget(scrollArea);
+
+    QPixmap deckImage(":/source/hatlap.jpg");
+
+    QGraphicsPixmapItem *deckItem = scene->addPixmap(deckImage);
+    deckItem->setPos(450, 50); // Set the position of the deck item
+    deckItem->setScale(0.085);
+
+    QGraphicsPixmapItem *cardBackItem = scene->addPixmap(deckImage);
+    cardBackItem->setPos(800, 300); // Set the position of the card back item
+    cardBackItem->setScale(0.085);
+
+
 }
 
-void Game::start(){
-    //Deck* pakli = new Deck("pakli");
+void Game::displayMenu() {
+    QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Makao"));
+    QFont titleFont("comic sans", 50);
+    titleText->setFont(titleFont);
+    int txPos = this->width()/2 - titleText->boundingRect().width()/2;
+    int tyPos = 150;
+    titleText->setPos(txPos, tyPos);
+    scene->addItem(titleText);
 
+    Button* playButton = new Button(QString("Play"));
+    int bxPos = this->width()/2 - playButton->boundingRect().width()/2;
+    int byPos = 300;
+    playButton->setPos(bxPos, byPos);
+    connect(playButton, &Button::clicked, this, &Game::start);
+    scene->addItem(playButton);
 
+    Button* quitButton = new Button(QString("Quit"));
+    int qxPos = this->width()/2 - quitButton->boundingRect().width()/2;
+    int qyPos = 430;
+    quitButton->setPos(qxPos, qyPos);
+    connect(quitButton, &Button::clicked, this, &Game::close);
+    scene->addItem(quitButton);
 }
