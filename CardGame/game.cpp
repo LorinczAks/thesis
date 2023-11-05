@@ -27,14 +27,14 @@ Game::Game(QWidget *parent){
 
 void Game::start(){
     //Deck* pakli = new Deck("pakli");
-    scene = new QGraphicsScene();
-    scene->setSceneRect(0,0,1024,768); // make the scene 800x600 instead of infinity by infinity (default)
-    setBackgroundBrush(QBrush(QImage(":/source/tablecover.jpg")));
+    initDecks();
+    drawGUI();
+}
 
-    // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
-    // it can be used to visualize scenes)
-    setScene(scene);
+void Game::drawGUI() {
+    scene->clear();
 
+    // visualize player's hand
     QWidget *widget = new QWidget;
     QScrollArea* scrollArea = new QScrollArea;
     scrollArea->setWidgetResizable(true);
@@ -46,32 +46,48 @@ void Game::start(){
     QHBoxLayout *layout = new QHBoxLayout(widget);
     QGridLayout *gridLayout = new QGridLayout;
     gridLayout->setAlignment(Qt::AlignCenter);
-    for (int j = 0; j < 3; ++j) {
-
-        Card *tmp_card = new Card(j);
+    for (int j = 0; j < playerDeck.size(); ++j) {
         QGraphicsScene* cardScene = new QGraphicsScene;
         QGraphicsView* view = new QGraphicsView;
         view->setScene(cardScene);
         view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         view->setFixedSize(80,125);
-        cardScene->addItem(tmp_card);
+        cardScene->addItem(playerDeck[j]);
 
         layout->addWidget(view);
     }
     scene->addWidget(scrollArea);
 
+    // visualize deck and enemy player's hand
     QPixmap deckImage(":/source/hatlap.jpg");
-
     QGraphicsPixmapItem *deckItem = scene->addPixmap(deckImage);
     deckItem->setPos(450, 50); // Set the position of the deck item
     deckItem->setScale(0.085);
-
     QGraphicsPixmapItem *cardBackItem = scene->addPixmap(deckImage);
     cardBackItem->setPos(800, 300); // Set the position of the card back item
     cardBackItem->setScale(0.085);
 
+    // visualize turn info text
+    whoseTurnText = new QGraphicsTextItem();
+    setWhoseTurn(QString("player 1"));
+    whoseTurnText->setFont(QFont("Arial", 20));
+    whoseTurnText->setPos(20, 50);
+    scene->addItem(whoseTurnText);
 
+}
+
+void Game::initDecks() {
+    for(int i = 0; i < 32; i++) {
+        Card* tmp_card = new Card(i);
+        tableDeck.append(tmp_card);
+    }
+    std::random_shuffle(tableDeck.begin(), tableDeck.end());
+    playerDeck.append(tableDeck.takeAt(0));
+    playerDeck.append(tableDeck.takeAt(1));
+    playerDeck.append(tableDeck.takeAt(2));
+    playerDeck.append(tableDeck.takeAt(3));
+    playerDeck.append(tableDeck.takeAt(4));
 }
 
 void Game::displayMenu() {
@@ -96,4 +112,13 @@ void Game::displayMenu() {
     quitButton->setPos(qxPos, qyPos);
     connect(quitButton, &Button::clicked, this, &Game::close);
     scene->addItem(quitButton);
+}
+
+QString Game::getWhoseTurn() {
+    return whoseTurn;
+}
+
+void Game::setWhoseTurn(QString player) {
+    whoseTurn = player;
+    whoseTurnText->setPlainText(player + QString("'s turn"));
 }

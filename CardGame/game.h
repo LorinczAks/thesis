@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QWidget>
 #include <QGraphicsScene>
+#include <card.h>
 
 class Game: public QGraphicsView{
 public:
@@ -12,13 +13,21 @@ public:
 
     // methods
     void displayMenu();
+    QString getWhoseTurn();
+    void setWhoseTurn(QString player);
 
     // attributes
     QGraphicsScene * scene;
-    //CardTable* table; TODO
-    QString whoseTurn;
 public slots:
     void start();
+private:
+
+    void drawGUI();
+    void initDecks();
+    QString whoseTurn;
+    QGraphicsTextItem* whoseTurnText;
+    QList<Card*> tableDeck;
+    QList<Card*> playerDeck;
 };
 
 #endif // GAME_H
