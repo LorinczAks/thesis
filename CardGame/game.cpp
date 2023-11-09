@@ -1,9 +1,9 @@
 #include "game.h"
 #include "card.h"
-#include "deck.h"
 #include "button.h"
 #include <QGraphicsTextItem>
 #include <QFont>
+#include <QDebug>
 
 #include <QImage>
 #include <QWidget>
@@ -23,6 +23,8 @@ Game::Game(QWidget *parent){
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
     // it can be used to visualize scenes)
     setScene(scene);
+
+    selectedCard = nullptr;
 }
 
 void Game::start(){
@@ -68,12 +70,19 @@ void Game::drawGUI() {
     cardBackItem->setPos(800, 300); // Set the position of the card back item
     cardBackItem->setScale(0.085);
 
+    // visualize active card
+    Card *activeCardItem = activeCard;
+    activeCardItem->setPos(450, 300); // Set the position of the card back item
+    activeCardItem->setScale(1);
+    scene->addItem(activeCardItem);
+
     // visualize turn info text
     whoseTurnText = new QGraphicsTextItem();
     setWhoseTurn(QString("player 1"));
     whoseTurnText->setFont(QFont("Arial", 20));
     whoseTurnText->setPos(20, 50);
     scene->addItem(whoseTurnText);
+    setWhoseTurn(QString("gumi"));
 
 }
 
@@ -88,6 +97,9 @@ void Game::initDecks() {
     playerDeck.append(tableDeck.takeAt(2));
     playerDeck.append(tableDeck.takeAt(3));
     playerDeck.append(tableDeck.takeAt(4));
+    // TODO give cards to enemy player
+
+    activeCard = tableDeck.takeAt(10);
 }
 
 void Game::displayMenu() {
@@ -121,4 +133,53 @@ QString Game::getWhoseTurn() {
 void Game::setWhoseTurn(QString player) {
     whoseTurn = player;
     whoseTurnText->setPlainText(player + QString("'s turn"));
+}
+
+void Game::pickUpCard(Card *card) {
+    if (selectedCard == nullptr) {
+        selectedCard = card;
+        originalPos = card->pos();
+        return;
+    }
+}
+
+void Game::placeCard(Card *cardToReplace) {
+    qDebug()
+    << QString::fromUtf8(selectedCard->getDescription())
+    << "-t akarunk rani erre: "
+    << QString::fromUtf8(cardToReplace->getDescription());
+    if(cardToReplace == activeCard) {
+        qDebug() << "belemegy";
+        if(selectedCard->passesTo(cardToReplace)) {
+            qDebug() << "and they pass";
+            qDebug() << QString::fromUtf8(selectedCard->getDescription()) << " card placed!";
+            selectedCard->setPos(cardToReplace->pos());
+            tableDeck.append(cardToReplace);
+            playerDeck.removeAll(selectedCard);
+            activeCard = selectedCard;
+            selectedCard = nullptr;
+            drawGUI();
+        }
+    }
+}
+
+void Game::mouseMoveEvent(QMouseEvent *event) {
+    if(selectedCard) {
+        selectedCard->setPos(event->pos());
+    }
+
+    QGraphicsView::mouseMoveEvent(event);
+}
+
+void Game::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::RightButton){
+        if (selectedCard){
+            selectedCard->setPos(originalPos);
+            selectedCard->setIsSelected(false);
+            selectedCard = nullptr;
+            return;
+        }
+    }
+
+    QGraphicsView::mousePressEvent(event);
 }
