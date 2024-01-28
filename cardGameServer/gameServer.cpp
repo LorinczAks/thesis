@@ -11,19 +11,19 @@ gameServer::gameServer(int port, QObject *parent)
     } else{
         qDebug() << "Server started...";
     }
-    initDecks();
+    _initDecks();
     connect(this, &gameServer::nextRound, this, &gameServer::onNextRound);
 
     connect(this, &gameServer::sevenPlayed, this, &gameServer::drawTwo);
     connect(this, &gameServer::askForKindPlayed, this, &gameServer::askForKind);
     connect(this, &gameServer::acePlayed, this, &gameServer::noTurn);
-    kindModifier = "";
+    _kindModifier = "";
     _gameOnline = false;
 }
 
 void gameServer::on_client_connecting()
 {
-    if (player1Socket && player2Socket) {
+    if (_player1Socket && _player2Socket) {
         qDebug() << "Connection rejected. Maximum clients reached.";
         auto rejectedSocket = _server->nextPendingConnection();
         sendToCl("GAMEISFULL|", rejectedSocket);
@@ -36,14 +36,14 @@ void gameServer::on_client_connecting()
         qDebug() << "socket trying to connect is null";
         return;
     }
-    if (!player1Socket) {
-        player1Socket = socket;
-        connect(player1Socket, &QTcpSocket::readyRead, this, &gameServer::clientDataReady);
-        connect(player1Socket, &QTcpSocket::disconnected, this, &gameServer::clientDisconnected);
-    } else if (!player2Socket) {
-        player2Socket = socket;
-        connect(player2Socket, &QTcpSocket::readyRead, this, &gameServer::clientDataReady);
-        connect(player2Socket, &QTcpSocket::disconnected, this, &gameServer::clientDisconnected);
+    if (!_player1Socket) {
+        _player1Socket = socket;
+        connect(_player1Socket, &QTcpSocket::readyRead, this, &gameServer::clientDataReady);
+        connect(_player1Socket, &QTcpSocket::disconnected, this, &gameServer::clientDisconnected);
+    } else if (!_player2Socket) {
+        _player2Socket = socket;
+        connect(_player2Socket, &QTcpSocket::readyRead, this, &gameServer::clientDataReady);
+        connect(_player2Socket, &QTcpSocket::disconnected, this, &gameServer::clientDisconnected);
         _gameOnline = true;
     }
     else {
@@ -58,22 +58,22 @@ void gameServer::clientDisconnected()
     QTcpSocket *senderSocket = qobject_cast<QTcpSocket *>(sender());
     if(!_gameOnline) {
         if (senderSocket) {
-            if (senderSocket == player1Socket) {
+            if (senderSocket == _player1Socket) {
                 qDebug() << "Player 1 disconnected.";
-                player1Socket = nullptr;
-            } else if (senderSocket == player2Socket) {
+                _player1Socket = nullptr;
+            } else if (senderSocket == _player2Socket) {
                 qDebug() << "Player 2 disconnected.";
-                player2Socket = nullptr;
+                _player2Socket = nullptr;
             }
         }
     }
     else {
-        if (senderSocket == player1Socket) {
-            sendToCl("GAMEEND_DC|", player2Socket);
-            player1Socket = nullptr;
-        } else if (senderSocket == player2Socket) {
-            sendToCl("GAMEEND_DC|", player1Socket);
-            player2Socket = nullptr;
+        if (senderSocket == _player1Socket) {
+            sendToCl("GAMEEND_DC|", _player2Socket);
+            _player1Socket = nullptr;
+        } else if (senderSocket == _player2Socket) {
+            sendToCl("GAMEEND_DC|", _player1Socket);
+            _player2Socket = nullptr;
         }
     }
     emit clientDisconnect();
@@ -89,104 +89,104 @@ void gameServer::clientDataReady()
 
 void gameServer::onNextRound()
 {
-    if(player1Deck.size() == 0) {
-        sendToCl("GAMEEND_YOU|", player1Socket);
-        sendToCl("GAMEEND_ENEMY|", player2Socket);
-    } else if(player2Deck.size() == 0) {
-        sendToCl("GAMEEND_YOU|", player2Socket);
-        sendToCl("GAMEEND_ENEMY|", player1Socket);
+    if(_player1Deck.size() == 0) {
+        sendToCl("GAMEEND_YOU|", _player1Socket);
+        sendToCl("GAMEEND_ENEMY|", _player2Socket);
+    } else if(_player2Deck.size() == 0) {
+        sendToCl("GAMEEND_YOU|", _player2Socket);
+        sendToCl("GAMEEND_ENEMY|", _player1Socket);
     }
     else {
-        if(getWhoseTurn() == player1Name) {
-            setWhoseTurn(player2Name);
+        if(getWhoseTurn() == _player1Name) {
+            setWhoseTurn(_player2Name);
         }
         else {
-            setWhoseTurn(player1Name);
+            setWhoseTurn(_player1Name);
         }
-        sendPlayerCards(player1Socket);
-        sendPlayerCards(player2Socket);
+        sendPlayerCards(_player1Socket);
+        sendPlayerCards(_player2Socket);
     }
 }
 
 void gameServer::drawTwo()
 {
-    if(player1Deck.size() == 0) {
-        sendToCl("GAMEEND_YOU|", player1Socket);
-        sendToCl("GAMEEND_ENEMY|", player2Socket);
+    if(_player1Deck.size() == 0) {
+        sendToCl("GAMEEND_YOU|", _player1Socket);
+        sendToCl("GAMEEND_ENEMY|", _player2Socket);
         return;
-    } else if(player2Deck.size() == 0) {
-        sendToCl("GAMEEND_YOU|", player2Socket);
-        sendToCl("GAMEEND_ENEMY|", player1Socket);
-        return;
-    }
-    if(tableDeck.size() < 2) {
-        sendPlayerCards(player1Socket);
-        sendPlayerCards(player2Socket);
+    } else if(_player2Deck.size() == 0) {
+        sendToCl("GAMEEND_YOU|", _player2Socket);
+        sendToCl("GAMEEND_ENEMY|", _player1Socket);
         return;
     }
-    if(getWhoseTurn() == player1Name) {
-        setWhoseTurn(player2Name);
-        player2Deck.append(tableDeck.takeAt(0));
-        player2Deck.append(tableDeck.takeAt(0));
-        sendToCl("DRAWNTWO|", player2Socket);
+    if(_tableDeck.size() < 2) {
+        sendPlayerCards(_player1Socket);
+        sendPlayerCards(_player2Socket);
+        return;
+    }
+    if(getWhoseTurn() == _player1Name) {
+        setWhoseTurn(_player2Name);
+        _player2Deck.append(_tableDeck.takeAt(0));
+        _player2Deck.append(_tableDeck.takeAt(0));
+        sendToCl("DRAWNTWO|", _player2Socket);
     }
     else {
-        setWhoseTurn(player1Name);
-        player1Deck.append(tableDeck.takeAt(0));
-        player1Deck.append(tableDeck.takeAt(0));
-        sendToCl("DRAWNTWO|", player1Socket);
+        setWhoseTurn(_player1Name);
+        _player1Deck.append(_tableDeck.takeAt(0));
+        _player1Deck.append(_tableDeck.takeAt(0));
+        sendToCl("DRAWNTWO|", _player1Socket);
     }
-    sendPlayerCards(player1Socket);
-    sendPlayerCards(player2Socket);
+    sendPlayerCards(_player1Socket);
+    sendPlayerCards(_player2Socket);
 }
 
 void gameServer::askForKind()
 {
-    if(getWhoseTurn() == player1Name) {
-        sendToCl("ASKFORKIND|", player1Socket);
+    if(getWhoseTurn() == _player1Name) {
+        sendToCl("ASKFORKIND|", _player1Socket);
     }
     else {
-        sendToCl("ASKFORKIND|", player2Socket);
+        sendToCl("ASKFORKIND|", _player2Socket);
     }
 }
 
 void gameServer::noTurn()
 {
-    if(getWhoseTurn() == player1Name) {
-        sendToCl("NOTURN|", player2Socket);
+    if(getWhoseTurn() == _player1Name) {
+        sendToCl("NOTURN|", _player2Socket);
     }
     else {
-        sendToCl("NOTURN|", player1Socket);
+        sendToCl("NOTURN|", _player1Socket);
     }
-    sendPlayerCards(player1Socket);
-    sendPlayerCards(player2Socket);
+    sendPlayerCards(_player1Socket);
+    sendPlayerCards(_player2Socket);
 }
 
-void gameServer::initDecks()
+void gameServer::_initDecks()
 {
     for(int i = 0; i < 32; i++) {
         try {
             Card* tmp_card = new Card(i);
-            tableDeck.append(tmp_card);
+            _tableDeck.append(tmp_card);
         } catch (const std::bad_alloc& e) {
             qDebug() << "Memory allocation failed: " << e.what();
         }
     }
-    std::random_shuffle(tableDeck.begin(), tableDeck.end());
+    std::random_shuffle(_tableDeck.begin(), _tableDeck.end());
 
-    player1Deck.append(tableDeck.takeAt(0));
-    player1Deck.append(tableDeck.takeAt(2));
-    player1Deck.append(tableDeck.takeAt(4));
-    player1Deck.append(tableDeck.takeAt(6));
-    player1Deck.append(tableDeck.takeAt(8));
+    _player1Deck.append(_tableDeck.takeAt(0));
+    _player1Deck.append(_tableDeck.takeAt(2));
+    _player1Deck.append(_tableDeck.takeAt(4));
+    _player1Deck.append(_tableDeck.takeAt(6));
+    _player1Deck.append(_tableDeck.takeAt(8));
 
-    player2Deck.append(tableDeck.takeAt(1));
-    player2Deck.append(tableDeck.takeAt(3));
-    player2Deck.append(tableDeck.takeAt(5));
-    player2Deck.append(tableDeck.takeAt(7));
-    player2Deck.append(tableDeck.takeAt(9));
+    _player2Deck.append(_tableDeck.takeAt(1));
+    _player2Deck.append(_tableDeck.takeAt(3));
+    _player2Deck.append(_tableDeck.takeAt(5));
+    _player2Deck.append(_tableDeck.takeAt(7));
+    _player2Deck.append(_tableDeck.takeAt(9));
 
-    activeCard = tableDeck.takeAt(10);
+    _activeCard = _tableDeck.takeAt(10);
 }
 
 
@@ -202,21 +202,21 @@ bool gameServer::isGameOnline() const
 
 QString gameServer::getWhoseTurn()
 {
-    return whoseTurn;
+    return _whoseTurn;
 }
 
 void gameServer::setWhoseTurn(QString player)
 {
-    whoseTurn = player;
+    _whoseTurn = player;
 }
 
 void gameServer::sendToCl(QString message, QTcpSocket* player)
 {
     player->write(message.toUtf8());
-    if(player == player1Socket) {
-        qDebug() << "message: " << message.toUtf8() << " sent to client: " << player1Name;
+    if(player == _player1Socket) {
+        qDebug() << "message: " << message.toUtf8() << " sent to client: " << _player1Name;
     } else {
-        qDebug() << "message: " << message.toUtf8() << " sent to client: " << player2Name;
+        qDebug() << "message: " << message.toUtf8() << " sent to client: " << _player2Name;
     }
 
 }
@@ -229,7 +229,7 @@ void gameServer::handleClientRequest(QTcpSocket *sender, const QString &request)
         handleConnection(sender, request);
     }
     else if(request == "GET_INITIAL_DECKS") {
-        setWhoseTurn(player1Name);
+        setWhoseTurn(_player1Name);
         sendPlayerCards(sender);
     } else if(request.startsWith("TRYINGTOPLACE_")) {
         handleCardPlacing(sender, request);
@@ -244,10 +244,10 @@ void gameServer::sendConStatus(QTcpSocket *targetClient)
 {
     // Form a message indicating connection status (similar to broadcastConnectionStatus)
     QString message = "CONNECTED_";
-    if(player1Socket) {
+    if(_player1Socket) {
         message += "1";
     }
-    if(player2Socket) {
+    if(_player2Socket) {
         message += "2";
     }
 
@@ -258,31 +258,31 @@ void gameServer::sendConStatus(QTcpSocket *targetClient)
 void gameServer::handleConnection(QTcpSocket *player, const QString& request)
 {
     QStringList tokens = request.split('_');
-    if(player1Socket == player) {
-        player1Name = tokens[1];
+    if(_player1Socket == player) {
+        _player1Name = tokens[1];
     }
-    if(player2Socket == player) {
-        player2Name = tokens[1];
+    if(_player2Socket == player) {
+        _player2Name = tokens[1];
     }
     //qDebug() << player << " connected, with name: " << tokens[1];
 }
 
 void gameServer::sendPlayerCards(QTcpSocket *player)
 {
-    QString message = QString::number(activeCard->getCode());
+    QString message = QString::number(_activeCard->getCode());
     message += "-";
     message += getWhoseTurn();
-    if(player == player1Socket) {
-        for(auto i = 0; i < player1Deck.size(); i++) {
+    if(player == _player1Socket) {
+        for(auto i = 0; i < _player1Deck.size(); i++) {
             message += "-";
-            message += QString::number(player1Deck[i]->getCode());
+            message += QString::number(_player1Deck[i]->getCode());
         }
-        //qDebug() << "sent cards message: " << message << " to " << player1Name;
+        //qDebug() << "sent cards message: " << message << " to " << _player1Name;
     }
-    else if(player == player2Socket) {
-        for(auto i = 0; i < player2Deck.size(); i++) {
+    else if(player == _player2Socket) {
+        for(auto i = 0; i < _player2Deck.size(); i++) {
             message += "-";
-            message += QString::number(player2Deck[i]->getCode());
+            message += QString::number(_player2Deck[i]->getCode());
         }
         //qDebug() << "sent cards message: " << message << " to " << player2Name;
     }
@@ -294,25 +294,25 @@ void gameServer::handleCardPlacing(QTcpSocket *player, const QString& request)
 {
     QStringList tokens = request.split('_');
     Card *tmpCard = new Card(tokens[1].toInt());
-    if(kindModifier == "hearts") {
+    if(_kindModifier == "hearts") {
         if(tmpCard->passesTo(new Card(5))) {
-            //qDebug() << tmpCard->getDescription() << " passes to " << activeCard->getDescription();
-            tableDeck.append(activeCard);
-            std::random_shuffle(tableDeck.begin(), tableDeck.end());
+            //qDebug() << tmpCard->getDescription() << " passes to " << _activeCard->getDescription();
+            _tableDeck.append(_activeCard);
+            std::random_shuffle(_tableDeck.begin(), _tableDeck.end());
 
-            if(player == player1Socket) {
-                for(auto i = 0; i < player1Deck.size(); i++) {
-                    if(player1Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player1Deck[i];
-                        player1Deck.removeAll(player1Deck[i]);
+            if(player == _player1Socket) {
+                for(auto i = 0; i < _player1Deck.size(); i++) {
+                    if(_player1Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player1Deck[i];
+                        _player1Deck.removeAll(_player1Deck[i]);
                     }
                 }
             }
-            else if(player == player2Socket) {
-                for(auto i = 0; i < player2Deck.size(); i++) {
-                    if(player2Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player2Deck[i];
-                        player2Deck.removeAll(player2Deck[i]);
+            else if(player == _player2Socket) {
+                for(auto i = 0; i < _player2Deck.size(); i++) {
+                    if(_player2Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player2Deck[i];
+                        _player2Deck.removeAll(_player2Deck[i]);
                     }
                 }
             }
@@ -337,29 +337,29 @@ void gameServer::handleCardPlacing(QTcpSocket *player, const QString& request)
             else {
                 emit nextRound();
             }
-            kindModifier = "";
+            _kindModifier = "";
         } else {
             sendToCl("PLACING_FAILURE|", player);
         }
-    } else if(kindModifier == "green") {
+    } else if(_kindModifier == "green") {
         if(tmpCard->passesTo(new Card(21))) {
-            //qDebug() << tmpCard->getDescription() << " passes to " << activeCard->getDescription();
-            tableDeck.append(activeCard);
-            std::random_shuffle(tableDeck.begin(), tableDeck.end());
+            //qDebug() << tmpCard->getDescription() << " passes to " << _activeCard->getDescription();
+            _tableDeck.append(_activeCard);
+            std::random_shuffle(_tableDeck.begin(), _tableDeck.end());
 
-            if(player == player1Socket) {
-                for(auto i = 0; i < player1Deck.size(); i++) {
-                    if(player1Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player1Deck[i];
-                        player1Deck.removeAll(player1Deck[i]);
+            if(player == _player1Socket) {
+                for(auto i = 0; i < _player1Deck.size(); i++) {
+                    if(_player1Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player1Deck[i];
+                        _player1Deck.removeAll(_player1Deck[i]);
                     }
                 }
             }
-            else if(player == player2Socket) {
-                for(auto i = 0; i < player2Deck.size(); i++) {
-                    if(player2Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player2Deck[i];
-                        player2Deck.removeAll(player2Deck[i]);
+            else if(player == _player2Socket) {
+                for(auto i = 0; i < _player2Deck.size(); i++) {
+                    if(_player2Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player2Deck[i];
+                        _player2Deck.removeAll(_player2Deck[i]);
                     }
                 }
             }
@@ -384,29 +384,29 @@ void gameServer::handleCardPlacing(QTcpSocket *player, const QString& request)
             else {
                 emit nextRound();
             }
-            kindModifier = "";
+            _kindModifier = "";
         } else {
             sendToCl("PLACING_FAILURE|", player);
         }
-    } else if(kindModifier == "pumpkin") {
+    } else if(_kindModifier == "pumpkin") {
         if(tmpCard->passesTo(new Card(13))) {
-            //qDebug() << tmpCard->getDescription() << " passes to " << activeCard->getDescription();
-            tableDeck.append(activeCard);
-            std::random_shuffle(tableDeck.begin(), tableDeck.end());
+            //qDebug() << tmpCard->getDescription() << " passes to " << _activeCard->getDescription();
+            _tableDeck.append(_activeCard);
+            std::random_shuffle(_tableDeck.begin(), _tableDeck.end());
 
-            if(player == player1Socket) {
-                for(auto i = 0; i < player1Deck.size(); i++) {
-                    if(player1Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player1Deck[i];
-                        player1Deck.removeAll(player1Deck[i]);
+            if(player == _player1Socket) {
+                for(auto i = 0; i < _player1Deck.size(); i++) {
+                    if(_player1Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player1Deck[i];
+                        _player1Deck.removeAll(_player1Deck[i]);
                     }
                 }
             }
-            else if(player == player2Socket) {
-                for(auto i = 0; i < player2Deck.size(); i++) {
-                    if(player2Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player2Deck[i];
-                        player2Deck.removeAll(player2Deck[i]);
+            else if(player == _player2Socket) {
+                for(auto i = 0; i < _player2Deck.size(); i++) {
+                    if(_player2Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player2Deck[i];
+                        _player2Deck.removeAll(_player2Deck[i]);
                     }
                 }
             }
@@ -431,29 +431,29 @@ void gameServer::handleCardPlacing(QTcpSocket *player, const QString& request)
             else {
                 emit nextRound();
             }
-            kindModifier = "";
+            _kindModifier = "";
         } else {
             sendToCl("PLACING_FAILURE|", player);
         }
-    } else if(kindModifier == "nut") {
+    } else if(_kindModifier == "nut") {
         if(tmpCard->passesTo(new Card(29))) {
-            //qDebug() << tmpCard->getDescription() << " passes to " << activeCard->getDescription();
-            tableDeck.append(activeCard);
-            std::random_shuffle(tableDeck.begin(), tableDeck.end());
+            //qDebug() << tmpCard->getDescription() << " passes to " << _activeCard->getDescription();
+            _tableDeck.append(_activeCard);
+            std::random_shuffle(_tableDeck.begin(), _tableDeck.end());
 
-            if(player == player1Socket) {
-                for(auto i = 0; i < player1Deck.size(); i++) {
-                    if(player1Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player1Deck[i];
-                        player1Deck.removeAll(player1Deck[i]);
+            if(player == _player1Socket) {
+                for(auto i = 0; i < _player1Deck.size(); i++) {
+                    if(_player1Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player1Deck[i];
+                        _player1Deck.removeAll(_player1Deck[i]);
                     }
                 }
             }
-            else if(player == player2Socket) {
-                for(auto i = 0; i < player2Deck.size(); i++) {
-                    if(player2Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player2Deck[i];
-                        player2Deck.removeAll(player2Deck[i]);
+            else if(player == _player2Socket) {
+                for(auto i = 0; i < _player2Deck.size(); i++) {
+                    if(_player2Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player2Deck[i];
+                        _player2Deck.removeAll(_player2Deck[i]);
                     }
                 }
             }
@@ -478,29 +478,29 @@ void gameServer::handleCardPlacing(QTcpSocket *player, const QString& request)
             else {
                 emit nextRound();
             }
-            kindModifier = "";
+            _kindModifier = "";
         } else {
             sendToCl("PLACING_FAILURE|", player);
         }
     } else {
-        if(tmpCard->passesTo(activeCard)) {
-            //qDebug() << tmpCard->getDescription() << " passes to " << activeCard->getDescription();
-            tableDeck.append(activeCard);
-            std::random_shuffle(tableDeck.begin(), tableDeck.end());
+        if(tmpCard->passesTo(_activeCard)) {
+            //qDebug() << tmpCard->getDescription() << " passes to " << _activeCard->getDescription();
+            _tableDeck.append(_activeCard);
+            std::random_shuffle(_tableDeck.begin(), _tableDeck.end());
 
-            if(player == player1Socket) {
-                for(auto i = 0; i < player1Deck.size(); i++) {
-                    if(player1Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player1Deck[i];
-                        player1Deck.removeAll(player1Deck[i]);
+            if(player == _player1Socket) {
+                for(auto i = 0; i < _player1Deck.size(); i++) {
+                    if(_player1Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player1Deck[i];
+                        _player1Deck.removeAll(_player1Deck[i]);
                     }
                 }
             }
-            else if(player == player2Socket) {
-                for(auto i = 0; i < player2Deck.size(); i++) {
-                    if(player2Deck[i]->getCode() == tmpCard->getCode()) {
-                        activeCard = player2Deck[i];
-                        player2Deck.removeAll(player2Deck[i]);
+            else if(player == _player2Socket) {
+                for(auto i = 0; i < _player2Deck.size(); i++) {
+                    if(_player2Deck[i]->getCode() == tmpCard->getCode()) {
+                        _activeCard = _player2Deck[i];
+                        _player2Deck.removeAll(_player2Deck[i]);
                     }
                 }
             }
@@ -535,14 +535,14 @@ void gameServer::handleCardPlacing(QTcpSocket *player, const QString& request)
 
 void gameServer::handleDrawingFromDeck(QTcpSocket *player)
 {
-    if(tableDeck.size() == 0) {
+    if(_tableDeck.size() == 0) {
         sendToCl("NOCARDSINDECK|", player);
         return;
     }
-    if(player1Socket == player) {
-        player1Deck.append(tableDeck.takeAt(0));
-    } else if(player2Socket == player) {
-        player2Deck.append(tableDeck.takeAt(0));
+    if(_player1Socket == player) {
+        _player1Deck.append(_tableDeck.takeAt(0));
+    } else if(_player2Socket == player) {
+        _player2Deck.append(_tableDeck.takeAt(0));
     }
     emit nextRound();
 }
@@ -550,32 +550,32 @@ void gameServer::handleDrawingFromDeck(QTcpSocket *player)
 void gameServer::handleAskingForKind(QTcpSocket *player, const QString &request)
 {
     if(request == "ASKFOR_HEARTS") {
-        kindModifier = "hearts";
-        if(player1Socket == player) {
-            sendToCl("ASKEDFOR_HEARTS|", player2Socket);
-        } else if(player2Socket == player) {
-            sendToCl("ASKEDFOR_HEARTS|", player1Socket);
+        _kindModifier = "hearts";
+        if(_player1Socket == player) {
+            sendToCl("ASKEDFOR_HEARTS|", _player2Socket);
+        } else if(_player2Socket == player) {
+            sendToCl("ASKEDFOR_HEARTS|", _player1Socket);
         }
     } else if(request == "ASKFOR_GREEN") {
-        kindModifier = "green";
-        if(player1Socket == player) {
-            sendToCl("ASKEDFOR_GREEN|", player2Socket);
-        } else if(player2Socket == player) {
-            sendToCl("ASKEDFOR_GREEN|", player1Socket);
+        _kindModifier = "green";
+        if(_player1Socket == player) {
+            sendToCl("ASKEDFOR_GREEN|", _player2Socket);
+        } else if(_player2Socket == player) {
+            sendToCl("ASKEDFOR_GREEN|", _player1Socket);
         }
     } else if(request == "ASKFOR_PUMPKIN") {
-        kindModifier = "pumpkin";
-        if(player1Socket == player) {
-            sendToCl("ASKEDFOR_PUMPKIN|", player2Socket);
-        } else if(player2Socket == player) {
-            sendToCl("ASKEDFOR_PUMPKIN|", player1Socket);
+        _kindModifier = "pumpkin";
+        if(_player1Socket == player) {
+            sendToCl("ASKEDFOR_PUMPKIN|", _player2Socket);
+        } else if(_player2Socket == player) {
+            sendToCl("ASKEDFOR_PUMPKIN|", _player1Socket);
         }
     } else if(request == "ASKFOR_NUT") {
-        kindModifier = "nut";
-        if(player1Socket == player) {
-            sendToCl("ASKEDFOR_NUT|", player2Socket);
-        } else if(player2Socket == player) {
-            sendToCl("ASKEDFOR_NUT|", player1Socket);
+        _kindModifier = "nut";
+        if(_player1Socket == player) {
+            sendToCl("ASKEDFOR_NUT|", _player2Socket);
+        } else if(_player2Socket == player) {
+            sendToCl("ASKEDFOR_NUT|", _player1Socket);
         }
     }
 
@@ -584,6 +584,6 @@ void gameServer::handleAskingForKind(QTcpSocket *player, const QString &request)
 
 void gameServer::sendShutDownMsg()
 {
-    sendToCl("GAMEEND_SHUTDOWN|", player1Socket);
-    sendToCl("GAMEEND_SHUTDOWN|", player2Socket);
+    sendToCl("GAMEEND_SHUTDOWN|", _player1Socket);
+    sendToCl("GAMEEND_SHUTDOWN|", _player2Socket);
 }

@@ -21,49 +21,49 @@ Widget::Widget(QWidget *parent) {
     // signals and slots to connect
 
     // signals from client class to widget slots
-    connect(&_client, &OwnClient::enemyNotConnected, this, &Widget::displayWaiting);
+    connect(&client, &OwnClient::enemyNotConnected, this, &Widget::displayWaiting);
 
-    connect(&_client, &OwnClient::gameCanStart, this, &Widget::requestCards);
-    connect(&_client, &OwnClient::cardsReady, this, &Widget::drawStartingGUI);
-    connect(&_client, &OwnClient::nextTurn, this, &Widget::drawUpdateGUI);
-    connect(&_client, &OwnClient::gameEnded, this, &Widget::drawEndingGUI);
-    connect(&_client, &OwnClient::cardNotPass, [=]() {
+    connect(&client, &OwnClient::gameCanStart, this, &Widget::requestCards);
+    connect(&client, &OwnClient::cardsReady, this, &Widget::drawStartingGUI);
+    connect(&client, &OwnClient::nextTurn, this, &Widget::drawUpdateGUI);
+    connect(&client, &OwnClient::gameEnded, this, &Widget::drawEndingGUI);
+    connect(&client, &OwnClient::cardNotPass, [=]() {
         chatWidget->addItem("A kijátszott kártya nem passzol. Próbálj másikat.");
     });
-    connect(&_client, &OwnClient::sevenPlayedByEnemy, [=]() {
+    connect(&client, &OwnClient::sevenPlayedByEnemy, [=]() {
         chatWidget->addItem("Ellenfeled hetest játszott ki. Húznod kellett kettő lapot a pakliból.");
     });
-    connect(&_client, &OwnClient::acePlayedByEnemy, [=]() {
+    connect(&client, &OwnClient::acePlayedByEnemy, [=]() {
         chatWidget->addItem("Ellenfeled ászt játszott ki. Egy körből kimaradsz.");
     });
-    connect(&_client, &OwnClient::askForKind, this, &Widget::drawAskForKindGUI);
-    connect(&_client, &OwnClient::enemyAskedForHearts, [=]() {
+    connect(&client, &OwnClient::askForKind, this, &Widget::drawAskForKindGUI);
+    connect(&client, &OwnClient::enemyAskedForHearts, [=]() {
         chatWidget->addItem("Ellenfeled piros színt kért.");
     });
-    connect(&_client, &OwnClient::enemyAskedForGreen, [=]() {
+    connect(&client, &OwnClient::enemyAskedForGreen, [=]() {
         chatWidget->addItem("Ellenfeled zöld színt kért.");
     });
-    connect(&_client, &OwnClient::enemyAskedForPumpkin, [=]() {
+    connect(&client, &OwnClient::enemyAskedForPumpkin, [=]() {
         chatWidget->addItem("Ellenfeled tök színt kért.");
     });
-    connect(&_client, &OwnClient::enemyAskedForNut, [=]() {
+    connect(&client, &OwnClient::enemyAskedForNut, [=]() {
         chatWidget->addItem("Ellenfeled makk színt kért.");
     });
-    connect(&_client, &OwnClient::cantDrawFromDeck, [=]() {
+    connect(&client, &OwnClient::cantDrawFromDeck, [=]() {
         chatWidget->addItem("Nincs már lap a pakliban, nem tudsz húzni.");
     });
 
-    connect(&_client, &OwnClient::serverFull, this, &Widget::displayServerFull);
+    connect(&client, &OwnClient::serverFull, this, &Widget::displayServerFull);
 
     // signals from widget class to client slots
-    connect(this, &Widget::tryToConnect, &_client, &OwnClient::connectToDevice);
-    connect(this, &Widget::placeCardSignal, &_client, &OwnClient::sendPlacedCard);
-    connect(this, &Widget::drawFromDeck, &_client, &OwnClient::sendDrawCardRequest);
+    connect(this, &Widget::tryToConnect, &client, &OwnClient::connectToDevice);
+    connect(this, &Widget::placeCardSignal, &client, &OwnClient::sendPlacedCard);
+    connect(this, &Widget::drawFromDeck, &client, &OwnClient::sendDrawCardRequest);
 
-    connect(this, &Widget::askForHearts, &_client, &OwnClient::askedForHearts);
-    connect(this, &Widget::askForGreen, &_client, &OwnClient::askedForGreen);
-    connect(this, &Widget::askForPumpkin, &_client, &OwnClient::askedForPumpkin);
-    connect(this, &Widget::askForNut, &_client, &OwnClient::askedForNut);
+    connect(this, &Widget::askForHearts, &client, &OwnClient::askedForHearts);
+    connect(this, &Widget::askForGreen, &client, &OwnClient::askedForGreen);
+    connect(this, &Widget::askForPumpkin, &client, &OwnClient::askedForPumpkin);
+    connect(this, &Widget::askForNut, &client, &OwnClient::askedForNut);
 
 }
 
@@ -148,7 +148,7 @@ Widget::~Widget() {
 
 void Widget::requestCards()
 {
-    _client.send(QString("GET_INITIAL_DECKS"));
+    client.send(QString("GET_INITIAL_DECKS"));
 }
 
 void Widget::drawStartingGUI(QString cardsInfo)
@@ -374,7 +374,7 @@ void Widget::drawConnectionGUI()
         int port = portInput->text().toInt();
 
 
-        _client.connectToDevice(name, ip, port);
+        client.connectToDevice(name, ip, port);
         playerName = name;
     });
     scene->addItem(connectButton);

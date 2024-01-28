@@ -40,7 +40,7 @@ public:
     QWidget *plHandWidget;
     QHBoxLayout *plHandLayout;
     QScrollArea *plHandScrollArea;
-    OwnClient _client;
+    OwnClient client;
     //destructor
     ~Widget();
 signals:

@@ -50,20 +50,20 @@ private slots:
 private:
     QTcpServer *_server;
     bool _isStarted;
-    QString whoseTurn;
+    QString _whoseTurn;
     bool _gameOnline;
     // methods
-    void initDecks();
+    void _initDecks();
     // attributes
-    QList<Card*> tableDeck;
-    QList<Card*> player1Deck;
-    QList<Card*> player2Deck;
-    Card* activeCard;
-    QTcpSocket* player1Socket = nullptr;
-    QTcpSocket* player2Socket = nullptr;
-    QString player1Name;
-    QString player2Name;
-    QString kindModifier;
+    QList<Card*> _tableDeck;
+    QList<Card*> _player1Deck;
+    QList<Card*> _player2Deck;
+    Card* _activeCard;
+    QTcpSocket* _player1Socket = nullptr;
+    QTcpSocket* _player2Socket = nullptr;
+    QString _player1Name;
+    QString _player2Name;
+    QString _kindModifier;
 };
 
 #endif // GAMESERVER_H
