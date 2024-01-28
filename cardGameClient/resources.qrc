@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/">
+        <file>source/hatlap.jpg</file>
+        <file>source/Makk7.png</file>
+        <file>source/Makk8.png</file>
+        <file>source/Makk9.png</file>
+        <file>source/Makk10.png</file>
+        <file>source/MakkAls.png</file>
+        <file>source/MakkAsz.png</file>
+        <file>source/MakkFel.png</file>
+        <file>source/MakkKir.png</file>
+        <file>source/Piros7.png</file>
+        <file>source/Piros8.png</file>
+        <file>source/Piros9.png</file>
+        <file>source/Piros10.png</file>
+        <file>source/PirosAls.png</file>
+        <file>source/PirosAsz.png</file>
+        <file>source/PirosFel.png</file>
+        <file>source/PirosKir.png</file>
+        <file>source/tablecover.jpg</file>
+        <file>source/Tok7.png</file>
+        <file>source/Tok8.png</file>
+        <file>source/Tok9.png</file>
+        <file>source/Tok10.png</file>
+        <file>source/TokAls.png</file>
+        <file>source/TokAsz.png</file>
+        <file>source/TokFel.png</file>
+        <file>source/TokKir.png</file>
+        <file>source/Zold7.png</file>
+        <file>source/Zold8.png</file>
+        <file>source/Zold9.png</file>
+        <file>source/Zold10.png</file>
+        <file>source/ZoldAls.png</file>
+        <file>source/ZoldAsz.png</file>
+        <file>source/ZoldFel.png</file>
+        <file>source/ZoldKir.png</file>
+    </qresource>
+</RCC>
